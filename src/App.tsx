@@ -351,7 +351,7 @@ function Slide09() {
           ))}
           <div className="gd-insight">
             <AlertTriangle size={14} color="#f59e0b" />
-            <p>가장자리 수율 하락<br />→ CVD 가스 균일도 문제 의심</p>
+            <p>가장자리 수율 하락<br />→ 공정 가스·온도 불균일 의심</p>
           </div>
         </div>
       </div>
@@ -451,14 +451,138 @@ function Slide12() {
   );
 }
 
+// ── 공정 일러스트 SVG 컴포넌트 ──────────────────────────────
+function PVDChamberSVG() {
+  return (
+    <svg className="process-svg" viewBox="0 0 260 168" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="pvdArr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+          <path d="M0,0 L0,5 L5,2.5 z" fill="rgba(251,191,36,0.9)"/>
+        </marker>
+      </defs>
+      {/* 진공 챔버 외벽 */}
+      <rect x="4" y="4" width="252" height="160" rx="8" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.4)" strokeWidth="2"/>
+      <text x="130" y="90" textAnchor="middle" fill="rgba(255,255,255,0.14)" fontSize="11" fontStyle="italic">진공 챔버 (10⁻⁶ Pa)</text>
+      {/* 타겟 */}
+      <rect x="28" y="14" width="200" height="18" rx="3" fill="rgba(255,255,255,0.9)"/>
+      <text x="128" y="27" textAnchor="middle" fill="#0c4a6e" fontSize="9.5" fontWeight="700">타겟 Target (Ti / Al / TiN)</text>
+      <text x="242" y="27" fill="rgba(255,255,255,0.75)" fontSize="8.5" fontWeight="700">RF~</text>
+      {/* Ar+ 이온 */}
+      {([65,100,128,156,193] as number[]).map((x, i) => (
+        <g key={i}>
+          <circle cx={x} cy="68" r="5" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5"/>
+          <text x={x} y="72" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="7.5" fontWeight="600">Ar⁺</text>
+        </g>
+      ))}
+      {/* 스퍼터 입자 화살표 */}
+      {([55,78,102,128,152,178,202] as number[]).map((x, i) => (
+        <line key={i} x1={x} y1="36" x2={x + (i % 2 === 0 ? -2 : 2)} y2="136"
+          stroke="rgba(251,191,36,0.65)" strokeWidth="1.5" markerEnd="url(#pvdArr)"/>
+      ))}
+      {/* 증착막 */}
+      <rect x="28" y="138" width="200" height="6" rx="2" fill="rgba(251,191,36,0.45)"/>
+      {/* 웨이퍼 기판 */}
+      <rect x="28" y="144" width="200" height="14" rx="3" fill="rgba(255,255,255,0.88)"/>
+      <text x="128" y="155" textAnchor="middle" fill="#0c4a6e" fontSize="9.5" fontWeight="700">웨이퍼 기판</text>
+    </svg>
+  );
+}
+
+function OLEDEvapSVG() {
+  return (
+    <svg className="process-svg" viewBox="0 0 260 168" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="oledArr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+          <path d="M0,5 L2.5,0 L5,5 z" fill="rgba(167,243,208,0.9)"/>
+        </marker>
+      </defs>
+      {/* 진공 챔버 */}
+      <rect x="4" y="4" width="252" height="160" rx="8" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.4)" strokeWidth="2"/>
+      <text x="130" y="90" textAnchor="middle" fill="rgba(255,255,255,0.14)" fontSize="11" fontStyle="italic">고진공 챔버 (10⁻⁷ Pa)</text>
+      {/* 유리 기판 */}
+      <rect x="20" y="14" width="220" height="11" rx="2" fill="rgba(255,255,255,0.88)"/>
+      <text x="130" y="23" textAnchor="middle" fill="#0c4a6e" fontSize="9" fontWeight="700">유리 기판 · 쉐도우 마스크</text>
+      {/* 형성 중인 유기물 발광층 */}
+      <rect x="20" y="25" width="220" height="8" rx="2" fill="rgba(167,243,208,0.5)"/>
+      <text x="130" y="46" textAnchor="middle" fill="rgba(167,243,208,0.9)" fontSize="8.5">발광층 EML 형성 중</text>
+      {/* 증발 기체 화살표 */}
+      {([55,82,108,130,152,178,205] as number[]).map((x, i) => (
+        <line key={i} x1={x} y1="118" x2={x + (i % 2 === 0 ? -4 : 4)} y2="35"
+          stroke="rgba(167,243,208,0.6)" strokeWidth="1.5" markerEnd="url(#oledArr)"/>
+      ))}
+      {/* 증발원 A */}
+      <ellipse cx="70" cy="138" rx="32" ry="11" fill="rgba(239,68,68,0.2)" stroke="rgba(239,68,68,0.65)" strokeWidth="1.5"/>
+      <text x="70" y="141" textAnchor="middle" fill="rgba(255,255,255,0.88)" fontSize="8.5" fontWeight="600">증발원 A (HTL)</text>
+      {/* 증발원 B */}
+      <ellipse cx="190" cy="138" rx="32" ry="11" fill="rgba(239,68,68,0.2)" stroke="rgba(239,68,68,0.65)" strokeWidth="1.5"/>
+      <text x="190" y="141" textAnchor="middle" fill="rgba(255,255,255,0.88)" fontSize="8.5" fontWeight="600">증발원 B (EML)</text>
+      {/* 열 파동 */}
+      {([56,66,76,186,196,206] as number[]).map((x, i) => (
+        <path key={i} d={`M${x},124 Q${x+3},117 ${x+6},124`} fill="none" stroke="rgba(251,191,36,0.55)" strokeWidth="1.2"/>
+      ))}
+    </svg>
+  );
+}
+
+function SlotDieSVG() {
+  return (
+    <svg className="process-svg" viewBox="0 0 260 168" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="sdArr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+          <path d="M0,5 L2.5,0 L5,5 z" fill="rgba(134,239,172,0.9)"/>
+        </marker>
+        <marker id="moveArr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="rgba(255,255,255,0.65)"/>
+        </marker>
+      </defs>
+      {/* 집전체 기판 */}
+      <rect x="8" y="118" width="244" height="15" rx="2" fill="rgba(255,255,255,0.88)"/>
+      <text x="130" y="129" textAnchor="middle" fill="#0c4a6e" fontSize="9.5" fontWeight="700">집전체 (Al-foil / Cu-foil)</text>
+      {/* 코팅 완료 구간 */}
+      <rect x="8" y="100" width="148" height="18" rx="2" fill="rgba(134,239,172,0.55)"/>
+      <text x="76" y="113" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="8.5" fontWeight="600">코팅 완료 (활물질)</text>
+      {/* 편차 발생 구간 */}
+      <rect x="124" y="100" width="32" height="18" rx="1" fill="rgba(239,68,68,0.45)" stroke="rgba(239,68,68,0.8)" strokeWidth="1.5"/>
+      <text x="140" y="113" textAnchor="middle" fill="white" fontSize="7.5" fontWeight="700">편차↑</text>
+      {/* 슬롯다이 헤드 */}
+      <rect x="136" y="30" width="84" height="58" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.55)" strokeWidth="2"/>
+      <text x="178" y="57" textAnchor="middle" fill="rgba(255,255,255,0.92)" fontSize="9.5" fontWeight="700">슬롯다이</text>
+      <text x="178" y="70" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="8.5">헤드</text>
+      {/* 슬롯 갭 */}
+      <line x1="146" y1="88" x2="210" y2="88" stroke="rgba(255,255,255,0.4)" strokeWidth="1"/>
+      {/* 슬러리 유출 화살표 */}
+      {([152,164,176,188,200] as number[]).map((x, i) => (
+        <line key={i} x1={x} y1="90" x2={x} y2="101" stroke="rgba(134,239,172,0.8)" strokeWidth="2" markerEnd="url(#sdArr)"/>
+      ))}
+      {/* 슬러리 공급관 */}
+      <line x1="178" y1="30" x2="178" y2="12" stroke="rgba(255,255,255,0.45)" strokeWidth="3"/>
+      <text x="178" y="10" textAnchor="middle" fill="rgba(255,255,255,0.75)" fontSize="8.5">슬러리 공급</text>
+      {/* 기판 이송 방향 */}
+      <line x1="16" y1="148" x2="122" y2="148" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" markerEnd="url(#moveArr)"/>
+      <text x="66" y="162" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="8.5">기판 이송 방향 →</text>
+    </svg>
+  );
+}
+
 // ── Slide 13 ─────────────────────────────────────────────────
 function Slide13() {
   return (
     <SlideShell accent>
-      <div className="case-opening">
-        <div className="case-badge"><Cpu size={18} /> Case 01 · 반도체</div>
-        <h2>웨이퍼 수율 맵에서<br />가장자리 하락 패턴 발견</h2>
-        <p>CVD 공정 후 가장자리 다이에서만 수율이 낮게 나옴.<br />원인이 가스인지, 온도인지 빠르게 파악해야 한다.</p>
+      <div className="case-open-new">
+        <div className="case-badge-new"><Cpu size={16} /> Case 01 · 반도체 PVD 스퍼터링</div>
+        <div className="case-open-body">
+          <div className="cop-text">
+            <div className="cop-proc-name">물리 기상 증착 (PVD · Sputtering)</div>
+            <p className="cop-proc-desc">아르곤(Ar⁺) 이온으로 타겟 금속을 물리적으로 이탈·증착해 배선막을 형성. CVD와 달리 화학반응 없이 저온 증착 가능. Al·Ti·TiN 배선층과 장벽층에 광범위하게 사용됩니다.</p>
+            <div className="cop-params">
+              <span>진공: 10⁻⁶ Pa</span><span>RF 파워: 1~20 kW</span><span>Ar 유량: 20~60 sccm</span>
+            </div>
+          </div>
+          <PVDChamberSVG />
+        </div>
+        <div className="case-problem">
+          <strong>분석 과제:</strong> 스퍼터링 후 가장자리 다이 시트 저항이 웨이퍼 중심 대비 평균 +12% 높음. 타겟 침식 불균일인지 Ar 가스 압력 구배 때문인지 빠르게 특정해야 한다.
+        </div>
       </div>
     </SlideShell>
   );
@@ -473,16 +597,16 @@ function Slide14() {
       <h2 className="s-title">기존 방식의 한계</h2>
       <div className="before-box">
         {[
-          '웨이퍼 측정 결과 Excel 파일 열기 (Lot당 1개)',
-          '행·열 번호로 다이 위치 확인 후 수율 수작업 계산',
-          '조건부 서식으로 이상 구역 색칠 (셀 하나씩)',
-          '여러 Lot 비교하려면 파일을 따로 열어 눈으로 대조',
+          '스퍼터링 후 웨이퍼 저항 측정 결과 파일 열기 (Lot당 1개)',
+          '다이 좌표(X, Y)로 위치 확인 후 저항 이상 셀 수작업 표시',
+          'Edge 다이와 Center 다이 저항을 따로 계산해 차이 비교',
+          '여러 Lot 비교하려면 파일을 따로 열어 수치를 눈으로 대조',
         ].map((s, i) => (
           <div className="bb-step" key={i}><span>{i + 1}</span><p>{s}</p></div>
         ))}
         <div className="bb-pain">
           <AlertTriangle size={16} color="#ef4444" />
-          <p>10 Lot 비교 = 2~3시간. 패턴 파악은 여전히 주관적 판단.</p>
+          <p>10 Lot 비교 = 2~3시간. 가장자리·중심 패턴은 여전히 주관적 판단.</p>
         </div>
       </div>
     </SlideShell>
@@ -491,16 +615,16 @@ function Slide14() {
 
 // ── Slide 15 ─────────────────────────────────────────────────
 function Slide15() {
-  const prompt = `나는 반도체 CVD 공정에서 웨이퍼 수율 데이터를 분석하고 싶다.
+  const prompt = `나는 반도체 PVD 스퍼터링 공정에서 웨이퍼 저항 편차를 분석하고 싶다.
 
-입력 데이터: wafer_yield.csv
-컬럼 구성: Lot_ID, Wafer_ID, Die_X, Die_Y, Yield(%)
+입력 데이터: wafer_resistance.csv
+컬럼 구성: Lot_ID, Wafer_ID, Die_X, Die_Y, SheetResistance_mohm
 분석 기간: 최근 30일, 10개 Lot
 
 요청 사항:
-1. Die_X / Die_Y 좌표로 웨이퍼 수율 히트맵을 그려줘
-2. 수율 85% 미만 다이는 빨간색으로 강조해줘
-3. Lot별로 가장자리 vs 중심 수율 평균을 비교해줘
+1. Die_X / Die_Y 좌표로 웨이퍼 저항 히트맵을 그려줘
+2. 저항 목표값 ±5% 초과 다이는 빨간색으로 강조해줘
+3. Lot별로 가장자리 vs 중심 저항 평균을 비교해줘
 4. 공간적 이상 군집 위치와 원인 후보 3가지를 요약해줘
 5. 결과물은 인터랙티브 HTML 파일로 만들어줘`;
   const { copied, copy } = useCopy(prompt);
@@ -531,10 +655,10 @@ function Slide16() {
       <h2 className="s-title">AI가 만들어 준 결과</h2>
       <div className="after-results">
         {[
-          '웨이퍼 히트맵 HTML — 마우스 올리면 다이 좌표·수율 표시',
-          '가장자리 평균 수율 71% vs 중심 평균 94% — 구배 명확',
-          '원인 후보 ① CVD 가스 플로우 불균일 ② 히터 온도 구배 ③ 엣지 링 마모',
-          'Lot별 비교 차트 — 3주차부터 가장자리 하락 시작 확인',
+          '웨이퍼 저항 히트맵 HTML — 마우스 올리면 다이 좌표·저항값 표시',
+          '가장자리 평균 128 mΩ/□ vs 중심 평균 112 mΩ/□ — 구배 명확',
+          '원인 후보 ① 타겟 엣지 침식(race-track 마모) ② Ar 압력 구배 ③ 기판 온도 분포 차이',
+          'Lot별 비교 차트 — 7주차부터 가장자리 저항 상승 트렌드 확인',
         ].map((t, i) => (
           <div className="ar-item" key={i}>
             <CheckCircle2 size={18} color="#10b981" />
@@ -544,7 +668,7 @@ function Slide16() {
       </div>
       <div className="after-time">
         <Zap size={16} color="#f59e0b" />
-        <span>작업지시서 입력 후 <strong>4분 만에</strong> 완성 — 기존 대비 40배 빠름</span>
+        <span>작업지시서 입력 후 <strong>4분 만에</strong> 완성 — 기존 대비 30배 이상 빠름</span>
       </div>
     </SlideShell>
   );
@@ -559,9 +683,9 @@ function Slide17() {
       <h2 className="s-title">엔지니어가 확인해야 할 것</h2>
       <div className="verify-list">
         {[
-          'AI가 찾은 가장자리 구역이 실제 웨이퍼 레이아웃 좌표와 일치하는가?',
-          '해당 Lot의 CVD 챔버 PM 이력과 이상 발생 시점이 겹치는가?',
-          '동일 챔버에서 처리된 다른 제품도 같은 가장자리 패턴이 나타나는가?',
+          'AI가 찾은 가장자리 이상 구역이 타겟 race-track 침식 위치와 일치하는가?',
+          '해당 Lot의 PVD 챔버 타겟 누적 전력(kWh)과 저항 상승 시점이 겹치는가?',
+          '동일 챔버 처리 다른 제품·레이어에서도 같은 가장자리 패턴이 나타나는가?',
         ].map((p, i) => (
           <div className="verify-item" key={i}>
             <span className="vi-num">{i + 1}</span>
@@ -581,10 +705,21 @@ function Slide17() {
 function Slide18() {
   return (
     <SlideShell accent>
-      <div className="case-opening">
-        <div className="case-badge"><Monitor size={18} /> Case 02 · 디스플레이</div>
-        <h2>OLED 패널 파티클 분포 맵으로<br />클린룸 오염원 위치 특정</h2>
-        <p>특정 구역에서만 파티클 불량이 반복 검출됨.<br />어느 설비에서, 어느 공정 후 발생하는지 빠르게 찾아야 한다.</p>
+      <div className="case-open-new">
+        <div className="case-badge-new"><Monitor size={16} /> Case 02 · 디스플레이 OLED 증착</div>
+        <div className="case-open-body">
+          <div className="cop-text">
+            <div className="cop-proc-name">OLED 유기물 진공 증착 공정</div>
+            <p className="cop-proc-desc">고진공 챔버에서 유기 발광 재료를 가열·증발시켜 유리 기판 위에 EML(발광층)·HTL(정공수송층)을 수 nm 단위로 정밀 적층. 쉐도우 마스크로 RGB 픽셀 패턴을 정의합니다.</p>
+            <div className="cop-params">
+              <span>진공: 10⁻⁷ Pa</span><span>증착률: 0.1~1 Å/s</span><span>두께: 수십 nm</span>
+            </div>
+          </div>
+          <OLEDEvapSVG />
+        </div>
+        <div className="case-problem">
+          <strong>분석 과제:</strong> 유기물 증착 후 패널 하단(Y: 0~80 mm) 구간에서 휘도 편차 ±15% 이상 반복 발생. 증발원 각도 편차인지, 쉐도우 마스크 처짐인지 원인을 빠르게 특정해야 한다.
+        </div>
       </div>
     </SlideShell>
   );
@@ -599,16 +734,16 @@ function Slide19() {
       <h2 className="s-title">기존 방식의 한계</h2>
       <div className="before-box">
         {[
-          'AOI 검사 결과 파일에서 Particle 좌표 복사',
-          '패널 사이즈 맞는 빈 Excel 격자 만들어서 좌표 입력',
-          '조건부 서식으로 빨간색 셀 표시 — 수백 개 수작업',
-          '공정 순서별(증착→패터닝→세정) 패널을 따로 만들어 비교',
+          '휘도 측정기 출력을 Excel에 패널 좌표별로 수작업 입력',
+          '패널 중심 기준 편차(%) 수식을 행·열별로 따로 계산',
+          '조건부 서식으로 편차 초과 구역 색칠 — 수백 셀 수작업',
+          '증착 단계별(EML/HTL/ETL) 패널을 따로 만들어 눈으로 비교',
         ].map((s, i) => (
           <div className="bb-step" key={i}><span>{i + 1}</span><p>{s}</p></div>
         ))}
         <div className="bb-pain">
           <AlertTriangle size={16} color="#ef4444" />
-          <p>100장 패널 분석 = 반나절. 공정 단계별 비교는 다음 날로 미뤄짐.</p>
+          <p>50장 패널 분석 = 반나절. 증착 단계별 비교는 다음 날로 미뤄짐.</p>
         </div>
       </div>
     </SlideShell>
@@ -617,17 +752,18 @@ function Slide19() {
 
 // ── Slide 20 ─────────────────────────────────────────────────
 function Slide20() {
-  const prompt = `나는 OLED 디스플레이 클린룸에서 파티클 불량 위치를 분석하고 싶다.
+  const prompt = `나는 OLED 디스플레이 유기물 증착 공정에서 패널 휘도 편차를 분석하고 싶다.
 
-입력 데이터: aoi_particle.csv
-컬럼: Panel_ID, Process_Step, X_pos, Y_pos, Size_um, Defect_Type
+입력 데이터: oled_luminance.csv
+컬럼: Panel_ID, Process_Step, X_mm, Y_mm, Luminance_cdm2, Uniformity_pct
 
 요청 사항:
-1. X_pos / Y_pos로 패널 파티클 분포 맵을 그려줘
-2. Process_Step별로 분포 맵을 분리해서 비교해줘
-3. 불량이 3개 이상 밀집한 군집 구역을 사각형으로 표시해줘
-4. 군집 구역의 좌표 범위와 해당 공정 단계 정보를 요약해줘
-5. 결과를 HTML 대시보드로 만들어줘`;
+1. X_mm / Y_mm 좌표로 패널 휘도 분포 히트맵을 그려줘
+2. 패널 중심 대비 ±10% 초과 구역을 빨간색으로 강조해줘
+3. Process_Step별로 분포 맵을 분리해서 비교해줘
+4. 균일도(Uniformity%) 하위 패널 10개를 순위표로 보여줘
+5. 이상 구역 위치 패턴과 원인 후보 3가지를 요약해줘
+6. 결과를 HTML 대시보드로 만들어줘`;
   const { copied, copy } = useCopy(prompt);
   return (
     <SlideShell>
@@ -656,17 +792,17 @@ function Slide21() {
       <h2 className="s-title">결과 & 엔지니어 검증</h2>
       <div className="after-results">
         {[
-          '공정 단계별 파티클 분포 맵 — 증착 후 우상단 군집 발견',
-          '좌표 (X: 1100–1360, Y: 0–200) 구역에 전체의 67% 집중',
-          '원인 후보: 챔버 내 특정 노즐 위치 / 반송 암 접촉 구간',
+          '증착 단계별 휘도 분포 맵 — EML 후 하단 Y:0~80mm 구간 휘도 저하 집중',
+          '하단 구간 균일도 평균 73% — 목표(±10%) 미달 12매 / 50매',
+          '원인 후보: ① 증발원 B 각도 편차 ② 쉐도우 마스크 하단 처짐 ③ 기판 하단 온도 구배',
         ].map((t, i) => (
           <div className="ar-item" key={i}><CheckCircle2 size={18} color="#10b981" /><p>{t}</p></div>
         ))}
       </div>
       <div className="verify-list compact">
         {[
-          'AI가 찾은 군집 구역이 실제 챔버 내부 위치와 매핑되는가?',
-          '증착 챔버 PM 이후 해당 구역 불량이 줄었는가?',
+          'AI가 찾은 하단 편차 구역이 증발원 B 방향 벡터와 일치하는가?',
+          '쉐도우 마스크 재설치 후 동일 구간 균일도가 개선되었는가?',
         ].map((p, i) => (
           <div className="verify-item" key={i}><span className="vi-num">{i + 1}</span><p>{p}</p></div>
         ))}
@@ -679,10 +815,21 @@ function Slide21() {
 function Slide22() {
   return (
     <SlideShell accent>
-      <div className="case-opening">
-        <div className="case-badge"><Battery size={18} /> Case 03 · 2차전지</div>
-        <h2>전극 코팅 저항 맵으로<br />슬롯다이 막힘 원인 확인</h2>
-        <p>전극 코팅 후 저항 편차가 특정 위치에서 반복 발생.<br />슬롯다이 노즐 막힘인지, 슬러리 점도 문제인지 판단해야 한다.</p>
+      <div className="case-open-new">
+        <div className="case-badge-new"><Battery size={16} /> Case 03 · 2차전지 전극 공정</div>
+        <div className="case-open-body">
+          <div className="cop-text">
+            <div className="cop-proc-name">슬롯다이 코팅 공정 (Slot-Die Coating)</div>
+            <p className="cop-proc-desc">미세 슬롯으로 전극 슬러리(활물질+바인더+도전재)를 집전체 위에 균일하게 도포하는 핵심 공정. 코팅 두께·저항 균일성이 배터리 용량·사이클 수명에 직결됩니다.</p>
+            <div className="cop-params">
+              <span>코팅 속도: 20~80 m/min</span><span>슬롯 갭: 50~200 μm</span><span>폭: 300~700 mm</span>
+            </div>
+          </div>
+          <SlotDieSVG />
+        </div>
+        <div className="case-problem">
+          <strong>분석 과제:</strong> 전극 코팅 후 폭 방향 520~580 mm 구간에서 저항 편차 집중 발생. 슬롯다이 노즐 막힘인지, 슬러리 점도 문제인지 빠르게 판단해야 한다.
+        </div>
       </div>
     </SlideShell>
   );
@@ -824,10 +971,10 @@ function Slide27() {
       <h2 className="s-title">5요소가 모두 있으면 즉시 실행된다</h2>
       <div className="good-prompt-box">
         {[
-          { tag: '문제', text: 'CVD 후 웨이퍼 수율 가장자리 하락 의심' },
-          { tag: '데이터', text: 'wafer_yield.csv — Die_X, Die_Y, Yield(%)' },
-          { tag: '기준', text: '수율 85% 미만 = 이상 판정' },
-          { tag: '산출물', text: '인터랙티브 히트맵 HTML + Lot별 비교표' },
+          { tag: '문제', text: 'PVD 스퍼터링 후 웨이퍼 가장자리 저항 상승 의심' },
+          { tag: '데이터', text: 'wafer_resistance.csv — Die_X, Die_Y, SheetResistance_mohm' },
+          { tag: '기준', text: '저항 목표값 ±5% 초과 = 이상 판정' },
+          { tag: '산출물', text: '인터랙티브 히트맵 HTML + Lot별 가장자리/중심 비교표' },
           { tag: '검증', text: '원인 후보 3가지 + 엔지니어 확인 질문 목록' },
         ].map(e => (
           <div className="gpb-elem" key={e.tag}>
