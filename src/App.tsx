@@ -2166,10 +2166,6 @@ export default function App() {
         </div>
 
         <div className="hero-section">
-          <div className="one-line-definition">
-            <span>LECTURE 05</span>
-            <strong>수율 히트맵과 웨이퍼 맵으로 불량 위치를 지도처럼 읽는 실습</strong>
-          </div>
           <h1>Ch.5 수율 히트맵 &amp; 웨이퍼 맵 시각화</h1>
           <p className="subtitle">불량 위치를 지도로 그린다 - AI 코딩으로 10분 안에</p>
           <div className="lesson-meta" aria-label="lesson summary">
