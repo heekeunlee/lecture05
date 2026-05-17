@@ -239,7 +239,7 @@ function Slide02() {
   return (
     <SlideShell>
       <SlideNumber n={2} />
-      <SlideTag label="BEFORE / AFTER" />
+      <SlideTag label="02. 숫자에서 히트맵으로" />
       <h2 className="s-title">같은 데이터, 다른 세계</h2>
       <div className="s02-three">
         {/* 왼쪽: 웨이퍼 실물 */}
@@ -338,14 +338,18 @@ function Slide03() {
   return (
     <SlideShell>
       <SlideNumber n={3} />
-      <SlideTag label="학습 목표" />
-      <h2 className="s-title">학습 목표 및 성취 역량</h2>
-      <div className="goals-list">
+      <SlideTag label="01. 오프닝 및 학습목표" />
+      <h2 className="s-title">오늘 여러분은 숫자 표에서 보이지 않던 불량 위치를 히트맵으로 읽고, AI에게 시각화 작업을 맡기는 법을 익힙니다</h2>
+      <p className="section-intro">
+        수율, 저항, 휘도, 두께처럼 위치가 붙어 있는 측정값은 표로만 보면 원인 후보를 찾기 어렵습니다.
+        이번 강의에서는 같은 데이터를 색 지도와 웨이퍼/패널 맵으로 바꾸어 공정 불균일성을 빠르게 판단하는 흐름을 다룹니다.
+      </p>
+      <div className="learning-goals-grid">
         {goals.map(g => (
-          <div className="goal-item g3" key={g.n}>
-            <span className="goal-num">{g.n}</span>
+          <article className="learning-goal-card" key={g.n}>
+            <span className="goal-kicker">학습목표 {Number(g.n)}</span>
             <div className="goal-body">
-              <p>{g.text}</p>
+              <h3>{g.text}</h3>
               {g.vis}
             </div>
             <div className="goal-metric">
@@ -353,7 +357,7 @@ function Slide03() {
               <div className="gm-row bad"><span className="gm-key">{g.before.label}</span><span className="gm-val">{g.before.val}</span></div>
               <div className="gm-row good"><span className="gm-key">{g.after.label}</span><span className="gm-val">{g.after.val}</span></div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </SlideShell>
@@ -2146,6 +2150,17 @@ const SLIDES = [
   Slide31, Slide32, Slide33,
 ];
 
+const DOCUMENT_SECTIONS = [
+  Slide03, Slide02, Slide04,
+  Slide05, Slide06, Slide07, Slide08, Slide09, Slide10, Slide11, Slide12,
+  Slide13, Slide14, Slide15, Slide16, Slide17,
+  Slide18, Slide19, Slide20, Slide21,
+  Slide22, Slide23, Slide24,
+  Slide25, Slide26, Slide27, Slide28,
+  Slide29, Slide30,
+  Slide31, Slide32, Slide33,
+];
+
 // ── 메인 App ─────────────────────────────────────────────────
 export default function App() {
   return (
@@ -2166,7 +2181,7 @@ export default function App() {
         </div>
 
         <div className="hero-section">
-          <h1>Ch.5 수율 히트맵 &amp; 웨이퍼 맵 시각화</h1>
+          <h1>Ch.5수율 히트맵 &amp; 웨이퍼 맵 시각화</h1>
           <p className="subtitle">불량 위치를 지도로 그린다 - AI 코딩으로 10분 안에</p>
           <div className="lesson-meta" aria-label="lesson summary">
             <span>40분</span>
@@ -2180,7 +2195,7 @@ export default function App() {
       </header>
 
       <main className="lecture-sections">
-        {SLIDES.slice(1).map((SlideComponent, index) => (
+        {DOCUMENT_SECTIONS.map((SlideComponent, index) => (
           <section className="lecture-section" key={index + 2}>
             <SlideComponent />
           </section>
